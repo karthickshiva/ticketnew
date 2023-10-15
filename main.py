@@ -1,5 +1,11 @@
 import requests
 import json
+import logging
+
+
+logger = logging.getLogger('my_logger')
+logger.setLevel(logging.INFO)
+logging.basicConfig(format='%(asctime)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', filename='logs.txt')
 
 file_name = 'ref.json'
 cinemas = []
@@ -20,16 +26,16 @@ def send_to_telegram_bot(text):
 
     telegram_response = requests.request("POST", telegram_url, headers=headers, data=payload)
     if telegram_response.status_code == 200:
-        print("Notification sent")
+        logger.info("Notification sent")
     else:
-        print("Notification failed")
+        logger.info("Notification failed")
 
 
 try:
     with open(file_name, 'r') as json_file:
         cinemas = json.load(json_file)
 except FileNotFoundError:
-    print("No reference file to compare.")
+    logger.info("No reference file to compare.")
 
 url = ("https://apiproxy.paytm.com/v3/movies/search/movie?meta=1&reqData=1&city=chennai&movieCode=rur_1kciu&version=3"
        "&site_id=6&channel=HTML5&child_site_id=370")
@@ -51,8 +57,7 @@ if response.status_code == 200:
         msg = 'No new cinemas added!'
     else:
         msg = 'New cinemas added: \n' + '\n'.join(new_cinemas)
-    print(msg)
-    send_to_telegram_bot(msg)
-
+        send_to_telegram_bot(msg)
+    logger.info(msg)
 else:
-    print("Failed to retrieve the API data. Status code:", response.status_code)
+    logger.info("Failed to retrieve the API data. Status code:", response.status_code)
