@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the project path
-PROJECT_PATH="/home/karthickshiva1709_gmail_com/projects/ticketnew"
+PROJECT_PATH="~/projects/ticketnew"
 
 # Change the current working directory to the project path
 cd "$PROJECT_PATH" || { echo "Error: Could not change directory to $PROJECT_PATH"; exit 1; }
