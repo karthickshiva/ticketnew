@@ -1,6 +1,10 @@
 import requests
 import json
 import logging
+import configparser
+
+config = configparser.ConfigParser()
+config.read('keys.properties')
 
 
 logger = logging.getLogger('my_logger')
@@ -9,8 +13,8 @@ logging.basicConfig(format='%(asctime)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%
 
 file_name = 'ref.json'
 cinemas = []
-bot_key = '6565753430:AAEVdg3dBuEkdEfQzZF_njdUDmLx6V3j-Vo'
-chat_id = 1191000872
+bot_key = config.get('Keys', 'bot_key')
+chat_id = config.get('Keys', 'chat_id')
 
 
 def send_to_telegram_bot(text):
